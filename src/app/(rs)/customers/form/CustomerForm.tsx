@@ -11,6 +11,7 @@ import {
   type insertCustomerSchemaType,
   type selectCustomerSchemaType,
 } from '@/zod-schemas/customer';
+import { TextAreaWithLabel } from '@/components/inputs/TextAreaWithLabel';
 
 type Props = {
   customer?: selectCustomerSchemaType;
@@ -94,6 +95,12 @@ export default function CustomerForm({ customer }: Props) {
               nameInSchema='phone'
             />
 
+            <TextAreaWithLabel<insertCustomerSchemaType>
+              fieldTitle='Notes'
+              nameInSchema='notes'
+              className='h-40'
+            />
+
             <div className='flex gap-2'>
               <Button
                 type='submit'
@@ -103,7 +110,7 @@ export default function CustomerForm({ customer }: Props) {
               >
                 Save
               </Button>
-              
+
               <Button
                 type='button'
                 variant='destructive'
