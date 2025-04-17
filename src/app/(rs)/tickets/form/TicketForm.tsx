@@ -20,9 +20,14 @@ import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel';
 type Props = {
   customer: selectCustomerSchemaType;
   ticket?: selectTicketSchemaType;
+  techs: {
+    id: string;
+    description: string;
+  }[];
+  isEditable?: boolean;
 };
 
-export default function TicketForm({ customer, ticket }: Props) {
+export default function TicketForm({ customer, ticket, techs, isEditable }: Props) {
   const defaultValues: insertTicketSchemaType = {
     id: ticket?.id ?? '(New)',
     customerId: ticket?.customerId ?? customer.id,
