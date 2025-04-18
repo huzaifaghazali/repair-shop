@@ -2,10 +2,12 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
+import { useAction } from 'next-safe-action/hooks';
+
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { InputWithLabel } from '@/components/inputs/InputWithLabel';
-
 import {
   insertCustomerSchema,
   type insertCustomerSchemaType,
@@ -14,9 +16,10 @@ import {
 import { TextAreaWithLabel } from '@/components/inputs/TextAreaWithLabel';
 import { SelectWithLabel } from '@/components/inputs/SelectWithLabel';
 import { StatesArray } from '@/constants/StatesArray';
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
-import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel';
 
+import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel';
+import { saveCustomerAction } from '@/app/actions/saveCustomerAction';
+import { useToast } from '@/hooks/use-toast';
 type Props = {
   customer?: selectCustomerSchemaType;
 };
@@ -24,7 +27,8 @@ type Props = {
 export default function CustomerForm({ customer }: Props) {
   const { getPermission, isLoading } = useKindeBrowserClient();
   const isManager = !isLoading && getPermission('manager')?.isGranted;
-
+  const { toast } = useToast();
+  
   const defaultValues: insertCustomerSchemaType = {
     id: customer?.id ?? 0,
     firstName: customer?.firstName ?? '',
@@ -44,6 +48,30 @@ export default function CustomerForm({ customer }: Props) {
     mode: 'onBlur',
     resolver: zodResolver(insertCustomerSchema),
     defaultValues,
+  });
+
+  const {
+    execute: executeSave,
+    result: executeResult,
+    isPending: isSaving,
+    reset: resetSaveAction,
+  } = useAction(saveCustomerAction, {
+    onSuccess({ data }) {
+      if (data?.message) {
+        toast({
+          variant: 'default',
+          title: 'Success! 🎉',
+          description: data.message,
+        });
+      }
+    },
+    onError({ error }) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Save Failed',
+      });
+    },
   });
 
   async function submitForm(data: insertCustomerSchemaType) {
