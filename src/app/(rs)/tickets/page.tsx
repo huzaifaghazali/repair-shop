@@ -1,4 +1,6 @@
 import TicketSearch from './TicketSearch';
+import { getOpenTickets } from "@/lib/queries/getOpenTickets"
+import { getTicketSearchResults } from '@/lib/queries/getTicketSearchResults';
 
 export const metadata = {
   title: 'Tickets Search',
@@ -12,11 +14,21 @@ export default async function Tickets({
   const { searchText } = await searchParams;
 
   if (!searchText) {
+   const results = await getOpenTickets()
     return (
       <>
         <TicketSearch />
+        <p>{JSON.stringify(results)}</p>
       </>
     );
   }
-  return <h2>Tickets Page</h2>;
+
+  const results = await getTicketSearchResults(searchText);
+
+  return (
+    <>
+      <TicketSearch />
+      <p>{JSON.stringify(results)}</p>
+    </>
+  );
 }
