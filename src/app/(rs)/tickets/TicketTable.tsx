@@ -35,6 +35,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import Filter from '@/components/react-table/Filter';
 
 type Props = {
   data: TicketSearchResultsType;
@@ -169,7 +170,7 @@ export default function TicketTable({ data }: Props) {
                     </div>
                     {header.column.getCanFilter() ? (
                       <div className='grid place-content-center'>
-                        {/* <Filter column={header.column} /> */}
+                        <Filter column={header.column} />
                       </div>
                     ) : null}
                   </TableHead>
