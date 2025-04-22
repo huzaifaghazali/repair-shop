@@ -55,7 +55,7 @@ export default function TicketTable({ data }: Props) {
     },
   ]);
 
-  usePolling(searchParams.get('searchText'), 10000);
+  usePolling(searchParams.get('searchText'), 300000);
   const pageIndex = useMemo(() => {
     const page = searchParams.get('page');
     return page ? parseInt(page) - 1 : 0;
@@ -204,8 +204,8 @@ export default function TicketTable({ data }: Props) {
           </TableBody>
         </Table>
       </div>
-      <div className='flex justify-between items-center'>
-        <div className='flex basis-1/3 items-center'>
+      <div className='flex justify-between items-center gap-1 flex-wrap'>
+        <div>
           <p className='whitespace-nowrap font-bold'>
             {`Page ${
               table.getState().pagination.pageIndex + 1
@@ -218,42 +218,49 @@ export default function TicketTable({ data }: Props) {
             }]`}
           </p>
         </div>
-        <div className='space-x-1'>
-          <Button variant='outline' onClick={() => router.refresh()}>
-            Refresh Data
-          </Button>
-          <Button variant='outline' onClick={() => table.resetSorting()}>
-            Reset Sorting
-          </Button>
-          <Button variant='outline' onClick={() => table.resetColumnFilters()}>
-            Reset Filters
-          </Button>
-          <Button
-            variant='outline'
-            onClick={() => {
-              const newIndex = table.getState().pagination.pageIndex - 1;
-              table.setPageIndex(newIndex);
-              const params = new URLSearchParams(searchParams.toString());
-              params.set('page', (newIndex + 1).toString());
-              router.replace(`?${params.toString()}`, { scroll: false });
-            }}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant='outline'
-            onClick={() => {
-              const newIndex = table.getState().pagination.pageIndex + 1;
-              table.setPageIndex(newIndex);
-              const params = new URLSearchParams(searchParams.toString());
-              params.set('page', (newIndex + 1).toString());
-              router.replace(`?${params.toString()}`, { scroll: false });
-            }}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+        <div className='flex flex-row gap-1'>
+          <div className='space-x-1 flex flex-row gap-1'>
+            <Button variant='outline' onClick={() => router.refresh()}>
+              Refresh Data
+            </Button>
+            <Button variant='outline' onClick={() => table.resetSorting()}>
+              Reset Sorting
+            </Button>
+            <Button
+              variant='outline'
+              onClick={() => table.resetColumnFilters()}
+            >
+              Reset Filters
+            </Button>
+          </div>
+          <div className='space-x-1 flex flex-row gap-1'>
+            <Button
+              variant='outline'
+              onClick={() => {
+                const newIndex = table.getState().pagination.pageIndex - 1;
+                table.setPageIndex(newIndex);
+                const params = new URLSearchParams(searchParams.toString());
+                params.set('page', (newIndex + 1).toString());
+                router.replace(`?${params.toString()}`, { scroll: false });
+              }}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant='outline'
+              onClick={() => {
+                const newIndex = table.getState().pagination.pageIndex + 1;
+                table.setPageIndex(newIndex);
+                const params = new URLSearchParams(searchParams.toString());
+                params.set('page', (newIndex + 1).toString());
+                router.replace(`?${params.toString()}`, { scroll: false });
+              }}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>
