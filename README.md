@@ -10,6 +10,18 @@
 
 Modern web application for managing repair shop operations, replacing traditional sticky note systems with a digital solution.
 
+## Picture
+
+![rs1](https://github.com/user-attachments/assets/1abff2cb-726f-45bd-a5e5-99440446498a)
+
+![rs1a](https://github.com/user-attachments/assets/6cebd0af-4df1-41ed-80ce-d97853574e0a)
+
+![rs2](https://github.com/user-attachments/assets/d7df163f-74b5-4052-ad9f-7d6fa0011ac6)
+
+![rs3](https://github.com/user-attachments/assets/f8629c28-b2ea-42eb-86ad-4cdf5cc3a0ae)
+
+![rs4](https://github.com/user-attachments/assets/521799fb-6ee3-4988-96ea-1799c4d92f7b)
+
 ## Features
 
 ### Authentication & Security
